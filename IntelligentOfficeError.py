@@ -1,0 +1,2 @@
+class IntelligentOfficeError(Exception):
+    pass
