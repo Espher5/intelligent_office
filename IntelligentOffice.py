@@ -18,11 +18,7 @@ class IntelligentOffice:
     CO2_PIN = 31
     FAN_PIN = 32
 
-    BLINDS_CLOSED = 0
-    BLINDS_HALF_OPEN = 1
-    BLINDS_FULLY_OPEN = 2
-
-    LUX_MIN = 450
+    LUX_MIN = 500
     LUX_MAX = 550
 
     def __init__(self):
@@ -45,9 +41,9 @@ class IntelligentOffice:
         self.pwm = GPIO.PWM(self.SERVO_PIN, 50)
         self.pwm.start(0)
 
-        self.blinds_status = self.BLINDS_CLOSED
+        self.blinds_open = False
         self.light_on = False
-        self.vent_switch_on = False
+        self.fan_switch_on = False
 
     def check_quadrant_occupancy(self, pin: int) -> bool:
         """
@@ -69,24 +65,12 @@ class IntelligentOffice:
         """
         Tries to maintain the actual light level inside the office, measure by the photoresitor,
         between LUX_MIN and LUX_MAX.
-
-        If the actual light level is lower than LUX_MIN the system starts opening the blinds (through the servo motor)
-        and stops it when the actual light level is greater than or equal to LUX_MIN. If, after the blinds are fully
-        open, the actual light level is still lower than LUX_MIN, the system then turns on the smart light bulb.
-
+        If the actual light level is lower than LUX_MIN the system turns on the smart light bulb.
         On the other hand, if the actual light level is greater than LUX_MAX, the system turns off the smart light bulb.
-        If the actual light level is still greater than LUX_MAX, the system starts closing the blinds
-        (through the servo motor) and stops it when the actual light level is less than or equal to LUX_MAX.
 
-        :return:
-        """
-        pass
-
-    def manage_lightbulb_based_on_occupancy(self) -> None:
-        """
-        Turn off the smart light bulb when the last worker leaves the office (i.e., the office is now vacant).
-        Turn on the smart light when the first worker goes back into the office.
-        :return:
+        Furthermore, When the last worker leaves the office (i.e., the office is now vacant), the intelligent office system 
+        stops regulating the light level in the office and then turns off the smart light bulb. 
+        When the first worker goes back into the office, the system resumes regulating the light level
         """
         pass
 
